@@ -1,7 +1,7 @@
 # Trabalho: Analisador Léxico
 
 Nome dos alunos e números de matrícula:
-* Aluno: Eric Jonai~Costa Souza 
+* Aluno: Eric Jonai Costa Souza 
 * Aluno: Nathan Machado dos Santos
 * Disciplina: Compiladores
 * Semestre: 2023/1
