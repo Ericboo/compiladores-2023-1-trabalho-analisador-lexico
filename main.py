@@ -1,5 +1,9 @@
 import re
 
+def remover_comentarios(source_code):
+    pattern = r'\/\*[\s\S]*?\*\/|\/\/.*'
+    return re.sub(pattern, '', source_code)
+
 def analizar(source_code):
     keyword = r"int|float|char|double|if|else|while|return|struct"
     identifier = r"[a-zA-Z_][a-zA-Z0-9_]*"
@@ -10,11 +14,11 @@ def analizar(source_code):
     
     std_reco = "|".join([
         keyword, 
+        identifier,
         float_const,
         int_const, 
-        identifier,
         operator, 
-        delimitator
+        delimitator,
     ])
     
     tokens = []
@@ -32,13 +36,14 @@ def analizar(source_code):
                 tokens.append(('OP', token))
             elif re.match(delimitator, token):
                 tokens.append(('DEL', token))
+            
     
     return tokens
 
 # Exemplo de código-fonte em C
-source_code = open('teste1.c').read()
+source_code = open('teste2.c').read()
 
 # Analisar o código-fonte e imprimir a lista de tokens com as descrições
-tokens = analizar(source_code)
+tokens = analizar(remover_comentarios(source_code))
 for token in tokens:
     print(token)
