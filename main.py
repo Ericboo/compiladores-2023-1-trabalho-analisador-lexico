@@ -9,7 +9,7 @@ def analizar(source_code):
     identifier = r"[a-zA-Z_][a-zA-Z0-9_]*"
     int_const = r"\d+"
     float_const = r"\d+\.\d+"
-    operator = r"[+\-*/=!<>]"
+    operator = r"->|[-+*/%&|<>!]=?|[-+*/%&|<>]"
     delimitator = r"[(),;{}]"
     
     std_reco = "|".join([
