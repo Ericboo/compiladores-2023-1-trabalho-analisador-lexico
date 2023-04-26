@@ -6,12 +6,13 @@ def remover_comentarios(source_code):
 
 def analizar(source_code):
     keyword = r"^int$|^void$|^float$|^char$|^double$|^if$|^else$|^while$|^return$|^struct$|^for$|^switch$|^case$|^break$|^default$"
-    identifier = r"[a-zA-Z_][a-zA-Z0-9_]*"
-    int_const = r"\d+"
-    float_const = r"\d+\.\d+"
-    string_const = r'\".*?\"'
     operator = r"->|=|\+\+|--|[-+*/%&<>!]=?|[-+*/%&<>]|<<|>>|\|\|"
     delimitator = r"[(),:;{}\[\]]"
+    int_const = r"\d+(?="+operator+"|"+delimitator+"|\s|$)"
+    identifier = r"(?<!\d)[a-zA-Z_][a-zA-Z0-9_]*(?="+operator+"|"+delimitator+"|\s|$)"
+    float_const = r"\d+\.\d+(?="+operator+"|"+delimitator+"|\s|$)"
+    string_const = r'\".*?\"(?='+operator+'|'+delimitator+'|\s|$)'
+
     
     std_reco = "|".join([
         keyword, 
@@ -20,7 +21,7 @@ def analizar(source_code):
         int_const,
         string_const,
         operator, 
-        delimitator,
+        delimitator
     ])
     
     tokens = []
@@ -41,7 +42,7 @@ def analizar(source_code):
     return tokens
 
 # Exemplo de código-fonte em C
-source_code = open('teste-erro2.c').read()
+source_code = open('teste-erro1.c').read()
 
 # Analisar o código-fonte e imprimir a lista de tokens com as descrições
 tokens = analizar(remover_comentarios(source_code))
