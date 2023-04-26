@@ -5,18 +5,20 @@ def remover_comentarios(source_code):
     return re.sub(pattern, '', source_code)
 
 def analizar(source_code):
-    keyword = r"int|float|char|double|if|else|while|return|struct"
+    keyword = r"^int$|^void$|^float$|^char$|^double$|^if$|^else$|^while$|^return$|^struct$|^for$|^switch$|^case$|^break$|^default$"
     identifier = r"[a-zA-Z_][a-zA-Z0-9_]*"
     int_const = r"\d+"
     float_const = r"\d+\.\d+"
-    operator = r"->|[-+*/%&|<>!]=?|[-+*/%&|<>]"
-    delimitator = r"[(),;{}]"
+    string_const = r'\".*?\"'
+    operator = r"->|=|\+\+|--|[-+*/%&<>!]=?|[-+*/%&<>]|<<|>>|\|\|"
+    delimitator = r"[(),:;{}\[\]]"
     
     std_reco = "|".join([
         keyword, 
         identifier,
         float_const,
-        int_const, 
+        int_const,
+        string_const,
         operator, 
         delimitator,
     ])
@@ -26,9 +28,7 @@ def analizar(source_code):
         for token in re.findall(std_reco, linha):
             if re.match(keyword, token):
                 tokens.append(('KEYWORD', token))
-            elif re.match(float_const, token):
-                tokens.append(('CONST', token))
-            elif re.match(int_const, token):
+            elif re.match(float_const, token) or re.match(int_const, token) or re.match(int_const, token) or re.match(string_const, token):
                 tokens.append(('CONST', token))
             elif re.match(identifier, token):
                 tokens.append(('ID', token))
@@ -41,7 +41,7 @@ def analizar(source_code):
     return tokens
 
 # Exemplo de código-fonte em C
-source_code = open('teste2.c').read()
+source_code = open('teste-erro2.c').read()
 
 # Analisar o código-fonte e imprimir a lista de tokens com as descrições
 tokens = analizar(remover_comentarios(source_code))
